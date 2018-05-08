@@ -1,0 +1,3 @@
+#!/bin/bash
+redis-cli hset article:3 title mysql author mysql time '2018-04-22' content mysql
+redis-cli sort tag:mysql:article by article:*->time get article:*->title get #

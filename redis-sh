@@ -1,0 +1,69 @@
+#!/bin/bash
+
+stu=`redis-cli keys "stu*"`
+redis-cli mget `redis-cli keys "stu*"`
+redis-cli type `redis-cli keys "stu*"`
+redis-cli strlen $stu
+
+redis-cli hset car:1 color white
+redis-cli hmget car:1 color name price
+redis-cli hgetall car:1
+redis-cli hincrby car:1 price 50
+redis-cli hmset article:1 title mm author ww time '2018-04-25' content '你好!'
+
+redis-cli hkeys article:1
+redis-cli hvals article:1
+redis-cli hlen article:1
+
+redis-cli lpush ranking x-hong x-ming x-hua
+redis-cli rpush ranking x-hu x-gou
+redis-cli lpop ranking   		#弹出左边第一个元素，并删除
+redis-cli rpop ranking   		#弹出优边第一个元素，并删除
+redis-cli lrange ranking 0 -1 	#取出全部列表的数据
+redis-cli lrange ranking -3 -1 	#取出倒数第三个 到 第一个的元素
+redis-cli lrem ranking 0 -1  	#删除所有为-1的值
+redis-cli lrem ranking -3 1 	#从右边删除三个值为1的元素
+redis-cli lrem ranking 3 2    	#从左边删除3个值为2的元素
+
+redis-cli lindex ranking 0
+redis-cli lset ranking 5 x-guo
+redis-cli ltrim ranking 0 -2
+redis-cli linsert ranking before x-hua x-gua   #值为x-hua前插入x-gua
+redis-cli linsert ranking after  x-gou x-sha   #值为x-gou后插入x-sha
+redis-cli rpoplpush ranking ranking    #ranking尾部元素移到ranking首部
+
+#set 集合
+redis-cli sadd article:tag rabbit mouse
+redis-cli srem artilce:tag a b c 			#删除元素
+redis-cli smembers article:tag				#获取所有元素
+redis-cli sismember article:tag a
+
+#zset 有序集合
+redis-cli zadd scoreboard 61 tom 89 john 67 kitty
+redis-cli zscore scoreboard tom
+redis-cli zrange scoreboard 1 -1  withscores    #获取元素 按照索引
+redis-cli zrangebyscore scoreboard 50 80 #withscores limit 1 10
+redis-cli zadd scoreboard 80 lily
+redis-cli zrangebyscore scoreboard 50 (80 
+redis-cli zincrby scoreboard 4 tom
+
+redis-cli zcard scoreboard    	#查看集合里元素个数
+redis-cli zcount 50 80     		#获取50-80直接的元素个数
+
+redis-cli expire study 9000   	#设置键有效时间 s
+redis-cli ttl study    			#检查键有效时间
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
